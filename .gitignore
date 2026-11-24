@@ -1,0 +1,10 @@
+# 機密（密碼/金鑰/token）
+.env
+.env.*
+*.local
+secrets.*
+
+# Claude 個人設定（避免個資外洩）
+.claude/
+settings.local.json
+CLAUDE.local.md

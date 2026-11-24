@@ -1,0 +1,130 @@
+/* 道德經 · 讀與寫 —— 古典宣紙風格，沿用金剛經頁面的配色 */
+:root {
+  --bg: #f5f0e8;
+  --paper: #fbf8f1;
+  --ink: #2b2620;
+  --sub: #6b5e4c;
+  --gold: #c8a050;
+  --gold-deep: #7a5a1a;
+  --line: #d9cfbd;
+  --btn: #efe6d4;
+  --btn-on: #2b2620;
+  --btn-on-text: #fbf8f1;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif TC", "Songti TC", "PMingLiU", "Noto Serif CJK TC", serif;
+  line-height: 1.7;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+
+/* ---------- 頂端列 ---------- */
+.top {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 8px;
+  padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+  background: rgba(245, 240, 232, .94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.top .title { flex: 1; text-align: center; font-weight: 600; letter-spacing: .1em; }
+.top .title small { display: block; font-weight: 400; font-size: 12px; color: var(--sub); letter-spacing: .05em; }
+.nbtn {
+  min-width: 44px; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--paper); text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.nbtn[aria-disabled="true"] { opacity: .35; pointer-events: none; }
+
+/* ---------- 目錄 ---------- */
+.toc { max-width: 860px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top)) 20px 80px; }
+.toc h1 { text-align: center; font-size: 34px; letter-spacing: .3em; margin: 12px 0 4px; }
+.toc .lead { text-align: center; color: var(--sub); margin: 0 0 22px; font-size: 15px; }
+.toc .resume { display: block; margin: 0 auto 26px; max-width: 360px; text-align: center; padding: 12px;
+  border: 1px solid var(--gold); border-radius: 12px; background: var(--paper); text-decoration: none; color: var(--gold-deep); }
+.toc h2 { font-size: 18px; letter-spacing: .2em; color: var(--gold-deep); margin: 28px 0 10px;
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+.card { position: relative; display: block; padding: 12px 10px; text-align: center; text-decoration: none;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+.card b { display: block; font-size: 13px; color: var(--sub); font-weight: 400; }
+.card span { font-size: 19px; letter-spacing: .1em; }
+.card.has-ink::after { content: ""; position: absolute; top: 8px; right: 8px; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--gold); }
+.tools { margin-top: 34px; padding: 16px; border: 1px dashed var(--line); border-radius: 12px; color: var(--sub); font-size: 14px; }
+.tools button { margin: 6px 8px 6px 0; padding: 10px 16px; min-height: 44px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--paper); }
+.tools p { margin: 6px 0; }
+.foot { text-align: center; color: var(--sub); font-size: 13px; margin-top: 30px; }
+
+/* ---------- 章節紙面 ---------- */
+.paper {
+  position: relative; width: 100%; max-width: 720px; margin: 0 auto;
+  padding: 18px 26px 0; background: var(--paper);
+  box-shadow: 0 0 0 1px var(--line);
+  min-height: 100vh;
+}
+.paper h1 { font-size: 30px; letter-spacing: .2em; text-align: center; margin: 14px 0 6px; }
+.paper .part { text-align: center; color: var(--sub); font-size: 14px; letter-spacing: .15em; margin-bottom: 8px; }
+.sent { padding: 14px 6px 4px; border-bottom: 1px dashed var(--line); cursor: pointer; }
+.orig { margin: 0; font-size: 28px; line-height: 1.75; letter-spacing: .08em; }
+/* 白話永遠佔位，只改透明度 —— 版面不會因點擊而位移，手寫筆記才不會錯位 */
+.trans { margin: 6px 0 30px; font-size: 17px; line-height: 1.85; color: var(--gold-deep);
+  opacity: 0; transition: opacity .4s; }
+.sent.open .trans, .paper.show-all .trans { opacity: 1; }
+.sent.open .orig { background: linear-gradient(transparent 62%, rgba(200,160,80,.28) 62%); }
+.notes-area {
+  margin-top: 22px; height: 460px; padding-top: 8px;
+  background-image: repeating-linear-gradient(transparent 0, transparent 43px, var(--line) 43px, var(--line) 44px);
+  background-position: 0 8px;
+}
+.notes-area span { color: var(--sub); font-size: 14px; letter-spacing: .3em; }
+.paper.writing .sent { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+#ink { position: absolute; left: 0; top: 0; z-index: 10; mix-blend-mode: multiply; pointer-events: none; }
+.paper.writing #ink { pointer-events: auto; touch-action: none; cursor: crosshair; }
+.paper.erasing #ink { cursor: cell; }
+
+.pager { display: flex; justify-content: space-between; gap: 10px; max-width: 720px; margin: 0 auto;
+  padding: 14px 20px calc(120px + env(safe-area-inset-bottom)); }
+.pager .nbtn { flex: 1; }
+
+/* ---------- 工具列 ---------- */
+.toolbar {
+  position: fixed; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+  z-index: 40; max-width: calc(100vw - 16px);
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px;
+  padding: 8px 10px; border-radius: 18px;
+  background: rgba(251, 248, 241, .96); border: 1px solid var(--line);
+  box-shadow: 0 6px 24px rgba(60, 40, 10, .18); backdrop-filter: blur(8px);
+}
+.tb { min-width: 44px; min-height: 44px; padding: 0 10px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--btn); font-size: 14px; white-space: nowrap; }
+.tb[aria-pressed="true"] { background: var(--btn-on); color: var(--btn-on-text); border-color: var(--btn-on); }
+.sep { width: 1px; height: 28px; background: var(--line); margin: 0 2px; }
+.dot { width: 40px; height: 44px; border-radius: 12px; border: 2px solid transparent; background: none; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center; }
+.dot i { width: 22px; height: 22px; border-radius: 50%; display: block; }
+.dot[aria-pressed="true"] { border-color: var(--ink); }
+.dot.hl i { border-radius: 4px; height: 14px; width: 26px; }
+.write-only { display: none; }
+.writing-bar .write-only { display: inline-flex; }
+
+.toast { position: fixed; left: 50%; top: calc(70px + env(safe-area-inset-top)); transform: translateX(-50%);
+  z-index: 60; background: rgba(43,38,32,.92); color: #fbf8f1; padding: 8px 16px; border-radius: 10px; font-size: 14px; }
+
+@media (max-width: 520px) {
+  .orig { font-size: 24px; }
+  .paper { padding: 14px 16px 0; }
+}
+@media print {
+  .top, .toolbar, .pager { display: none; }
+  .trans { opacity: 1; }
+}
